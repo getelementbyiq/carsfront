@@ -1,0 +1,54 @@
+# Spring Boot Konfiguration für Auto Marketplace
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: auto-marketplace-backend
+  
+  # Firestore wird über Firebase Admin SDK konfiguriert
+  # Keine zusätzliche Datenbank-Konfiguration erforderlich
+  
+  # Security Konfiguration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Firebase JWT Issuer
+          issuer-uri: https://securetoken.google.com/${firebase.project-id}
+
+# Firebase Konfiguration
+firebase:
+  project-id: ${FIREBASE_PROJECT_ID:your-firebase-project-id}
+  credentials-path: ${FIREBASE_CREDENTIALS_PATH:src/main/resources/firebase-service-account.json}
+
+# Cloudinary Konfiguration
+cloudinary:
+  cloud-name: ${CLOUDINARY_CLOUD_NAME:your-cloud-name}
+  api-key: ${CLOUDINARY_API_KEY:your-api-key}
+  api-secret: ${CLOUDINARY_API_SECRET:your-api-secret}
+
+# Logging Konfiguration
+logging:
+  level:
+    com.automarketplace: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# CORS Konfiguration
+cors:
+  allowed-origins: 
+    - http://localhost:3000  # Next.js Development Server
+    - http://localhost:3001
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - OPTIONS
+  allowed-headers: "*"
+  allow-credentials: true
